@@ -17,14 +17,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     dbengine.cpp \
+    login.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
     dbengin.h \
+    login.h \
     widget.h
 
 FORMS += \
+    login.ui \
     widget.ui
 
 # Default rules for deployment.
