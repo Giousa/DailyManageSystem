@@ -14,8 +14,6 @@ Widget::Widget(QWidget *parent)
     resize(800,600);
     setWindowTitle("管理系统");
 
-    QSqlDatabase db1 = DBEngine::getQSqlDatabase();
-
 
 }
 
