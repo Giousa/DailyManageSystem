@@ -55,7 +55,7 @@ QString FileUtil::getPropertiesConfig(QString key)
 void FileUtil::setPropertiesConfig(QString key,QString value)
 {
 
-    if(key == NULL || value == NULL){
+    if(key == NULL){
         qDebug() << "设置数据不能为空";
         return;
     }
