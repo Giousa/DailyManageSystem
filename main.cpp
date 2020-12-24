@@ -3,6 +3,7 @@
 #include "dbengin.h"
 #include <QDebug>
 #include <fileutil.h>
+#include "login.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,17 +14,24 @@ int main(int argc, char *argv[])
 //    QString sql = "select * from ";
 //    query.exec(sql);
 
+    FileUtil::setPropertiesConfig("isLogin","true");
 
-    qDebug() << "main函数";
-
-
-    FileUtil::setPropertiesConfig("username","13764503367");
-
-    QString username = FileUtil::getPropertiesConfig("username");
+    QString username = FileUtil::getPropertiesConfig("isLogin");
     qDebug() << username;
 
+//    if("true" == username){
+//        qDebug() << "进入Login界面";
+//        Login l;
+//        l.show();
+//    }else{
+//        qDebug() << "进入Main界面";
+//        Widget w;
+//        w.show();
+//    }
 
-    Widget w;
-    w.show();
+
+    Login l;
+    l.show();
+
     return a.exec();
 }

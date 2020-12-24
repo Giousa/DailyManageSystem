@@ -79,20 +79,31 @@ void FileUtil::setPropertiesConfig(QString key,QString value)
     //打开文件，查询文件目录，看看是否匹配
 
     QString newData = NULL;
-    while(!file.atEnd()){
-        QByteArray line = file.readLine();
-        QStringList s = QString(line).split("=");
+    //判断key是否存在
+    bool isExist = false;
+    QTextStream in(&file);
+    while(!in.atEnd()){
+        QString line = in.readLine();
+        QStringList s = line.split("=");
 //         qDebug() << "分隔后:" << s;
 //         qDebug() << "字段名称:" << s[0];
         if(s[0] == key){
+            isExist = true;
             qDebug() << "查询到匹配字段";
             //修改字段value值
             QString newLine = QString("%1=%2").arg(key).arg(value);
             newData.append(newLine);
-            newData.append("\n");
         }else{
            newData.append(line);
         }
+        newData.append("\n");
+    }
+
+    if(!isExist){
+        //插入新的
+        QString newLine = QString("%1=%2").arg(key).arg(value);
+        newData.append(newLine);
+        newData.append("\n");
     }
 
     qDebug() << "新数据:" << newData;

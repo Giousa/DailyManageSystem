@@ -6,6 +6,10 @@ Login::Login(QWidget *parent) :
     ui(new Ui::Login)
 {
     ui->setupUi(this);
+
+    resize(800,600);
+    setWindowTitle("登录界面");
+
 }
 
 Login::~Login()
