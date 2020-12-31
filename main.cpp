@@ -14,21 +14,22 @@ int main(int argc, char *argv[])
 //    QString sql = "select * from ";
 //    query.exec(sql);
 
-    FileUtil::setPropertiesConfig("isLogin","true");
+//    FileUtil::setPropertiesConfig("isLogin","true");
 
-    QString username = FileUtil::getPropertiesConfig("isLogin");
-    qDebug() << username;
+//    QString username = FileUtil::getPropertiesConfig("isLogin");
+//    qDebug() << username;
 
+//    Login l;
+//    Widget w;
 //    if("true" == username){
 //        qDebug() << "进入Login界面";
-//        Login l;
+//        w.hide();
 //        l.show();
 //    }else{
 //        qDebug() << "进入Main界面";
-//        Widget w;
+//        l.hide();
 //        w.show();
 //    }
-
 
     Login l;
     l.show();

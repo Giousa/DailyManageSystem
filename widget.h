@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include "networkmanager.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -15,6 +16,20 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
+
+    QString userId;
+
+    NetworkManager *manager;
+
+    NetworkManager *managerPic;
+
+
+private slots:
+    void on_btnSend_clicked();
+
+    void responsePostResult(QJsonObject result);
+
+    void responsePicResult(QPixmap *pix);
 
 private:
     Ui::Widget *ui;

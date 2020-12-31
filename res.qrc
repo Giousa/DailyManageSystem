@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/files">
+        <file>img/button_background_xu.png</file>
+        <file>img/button_background.png</file>
+        <file>img/button_background1.png</file>
+        <file>img/button_background2.png</file>
+    </qresource>
+</RCC>

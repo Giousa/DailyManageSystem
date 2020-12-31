@@ -2,6 +2,9 @@
 #define FILEUTIL_H
 
 #include <QObject>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 class FileUtil : public QObject
 {
@@ -14,6 +17,15 @@ public:
 
     //存储数据
     static void setPropertiesConfig(QString key,QString value);
+
+
+
+    //本地存储QJsonObject数据
+    static void setJsonObject(QString fileName,QJsonObject value);
+
+
+    //本地获取QJsonObject数据
+    static QJsonObject getJsonObject(QString fileName);
 
 signals:
 

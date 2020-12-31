@@ -8,6 +8,10 @@
 
 void createFile(QString filePath,QString fileName);
 
+QJsonObject getJsonObjectFromString(const QString jsonString);
+QString getStringFromJsonObject(const QJsonObject& jsonObject);
+
+
 FileUtil::FileUtil(QObject *parent) : QObject(parent)
 {
 
@@ -116,6 +120,52 @@ void FileUtil::setPropertiesConfig(QString key,QString value)
     file.close();
 }
 
+void FileUtil::setJsonObject(QString fileName, QJsonObject value)
+{
+
+    if(fileName == NULL){
+        qDebug() << "文件地址不能为空";
+        return;
+    }
+
+    QString deskPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    createFile(deskPath+"/temp/",fileName+".json");
+    QString filePath = deskPath+"/temp/"+fileName+".json";
+    qDebug() << "json文件地址:" << filePath;
+
+    QFile file(filePath);
+    file.open(QIODevice::WriteOnly);
+
+
+    file.write(getStringFromJsonObject(value).toUtf8());
+
+    file.close();
+
+}
+
+QJsonObject FileUtil::getJsonObject(QString fileName)
+{
+    QJsonObject result;
+    if(fileName == NULL){
+        qDebug() << "文件地址不能为空";
+        return result;
+    }
+
+
+    QString deskPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    QString filePath = deskPath+"/temp/"+fileName+".json";
+    qDebug() << "json文件地址:" << filePath;
+    QFile file(filePath);
+
+    file.open(QIODevice::ReadOnly);
+
+    QByteArray array = file.readAll();
+    result = getJsonObjectFromString(QString(array));
+
+    return result;
+
+}
+
 
 
 
@@ -153,3 +203,19 @@ void createFile(QString filePath,QString fileName)
     qDebug()<<tempDir.currentPath();
 }
 
+
+// QString >> QJson
+QJsonObject getJsonObjectFromString(const QString jsonString){
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonString.toLocal8Bit().data());
+    if(jsonDocument.isNull() ){
+        qDebug()<< "===> QString >> QJson "<< jsonString.toLocal8Bit().data();
+    }
+    QJsonObject jsonObject = jsonDocument.object();
+    qDebug()<< "===> QString >> QJson ";
+    return jsonObject;
+}
+// QJson >> QString
+QString getStringFromJsonObject(const QJsonObject& jsonObject){
+    qDebug()<< "===> QJson >> QString ";
+    return QString(QJsonDocument(jsonObject).toJson());
+}
