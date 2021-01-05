@@ -21,17 +21,22 @@ public:
 
     QMap<QString,QString> params;
 
+    QString userId;
+
     int page;
 
     int size;
 
     void requestRecordList();
+    void requestDeleteRecord(QString id);
 
 
 private slots:
     void on_btnSend_clicked();
 
     void responseGetResult(QJsonObject result);
+
+    void responsePostResult(QJsonObject result);
 
     void on_btnBack_clicked();
 

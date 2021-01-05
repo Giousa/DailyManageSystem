@@ -1,6 +1,8 @@
 #include "workrecord.h"
 #include "ui_workrecord.h"
 #include "widget.h"
+#include <QMessageBox>
+
 
 
 WorkRecord::WorkRecord(QWidget *parent) :
@@ -13,7 +15,7 @@ WorkRecord::WorkRecord(QWidget *parent) :
     setWindowTitle("工作日志");
 
     QJsonObject result = FileUtil::getJsonObject("user");
-    QString userId = result.value("id").toString();
+    userId = result.value("id").toString();
 
     manager = new NetworkManager();
     page = 1;
@@ -23,6 +25,7 @@ WorkRecord::WorkRecord(QWidget *parent) :
 
     requestRecordList();
     connect(manager,&NetworkManager::responseGet,this,&WorkRecord::responseGetResult);
+//    connect(manager,&NetworkManager::responsePost,this,&WorkRecord::responsePostResult);
 
     //表格自适应
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -45,9 +48,14 @@ WorkRecord::~WorkRecord()
 void WorkRecord::responseGetResult(QJsonObject result)
 {
     qDebug() << "workrecord::";
-//    qDebug() << result;
+    qDebug() << result;
     if(!result.isEmpty()){
 //        qDebug() << "1";
+        QString d = result.value("data").toString();
+        if(d == "添加成功"){
+            on_btnFirst_clicked();
+            return;
+        }
         QJsonObject data = result.value("data").toObject();
 //        qDebug() << "2" << data;
         QJsonArray array = data.value("data").toArray();
@@ -81,6 +89,30 @@ void WorkRecord::responseGetResult(QJsonObject result)
 
 }
 
+void WorkRecord::responsePostResult(QJsonObject result)
+{
+    qDebug() << "WorkRecord 请求结果：";
+    qDebug() << result;
+//    QMessageBox msgBox;
+    if(!result.isEmpty()){
+        QJsonValue codeVal = result.value("code");
+        if(codeVal.toInt() == 0){
+            //成功
+            qDebug() << "发送成功";
+            ui->textEdit->setText("");
+//            msgBox.setText("发送成功");
+//            msgBox.exec();
+
+            on_btnFirst_clicked();
+//            return;
+        }
+    }
+
+//    msgBox.setText("发送失败");
+//    msgBox.exec();
+
+}
+
 void WorkRecord::on_btnBack_clicked()
 {
     this->close();
@@ -91,7 +123,16 @@ void WorkRecord::on_btnBack_clicked()
 
 void WorkRecord::on_btnSend_clicked()
 {
+    QString content = ui->textEdit->toPlainText();
+    if(content != NULL){
 
+        QJsonObject jsonObject;
+        jsonObject.insert("userId",userId);
+        jsonObject.insert("content",content);
+
+        manager->httpPostBody("daily-record/addQtDailyRecord",jsonObject);
+
+    }
 }
 
 
@@ -127,6 +168,34 @@ void WorkRecord::tableDoubleClicked(int x, int y)
 {
     qDebug() << "x = " << x << ", y = " << y;
     QTableWidgetItem *item = ui->tableWidget->item(x,0);
-    qDebug() << item->text();
+    QString id = item->text();
+    qDebug() << id;
+
+//    QMessageBox:: StandardButton msgBox= QMessageBox::warning(this, "删除", "确定删除此条目吗?",QMessageBox::No|QMessageBox::Yes);
+    QMessageBox msgBox;
+    msgBox.setText("确定删除此条目吗?");
+    //msgBox.setInformativeText("Do you want to save your changes?");
+    msgBox.setStandardButtons(QMessageBox::No|QMessageBox::Yes);
+    msgBox.setDefaultButton(QMessageBox::No);
+    int result = msgBox.exec();
+    switch (result){
+        case QMessageBox::Yes:
+            qDebug()<<"Yes";
+            requestDeleteRecord(id);
+            break;
+        case QMessageBox::No:
+            qDebug()<<"NO";
+            break;
+        default:
+            break;
+    }
+}
+
+void WorkRecord::requestDeleteRecord(QString id){
+    QMap<QString,QString> params = QMap<QString,QString>();
+    params.insert("id",id);
+    manager->httpGet("daily-record/deleteQtDailyRecord",params);
+
+    requestRecordList();
 }
 
