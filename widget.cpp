@@ -3,6 +3,7 @@
 #include "dbengin.h"
 #include <QMessageBox>
 #include "fileutil.h"
+#include "workrecord.h"
 
 
 Widget::Widget(QWidget *parent)
@@ -99,5 +100,13 @@ void Widget::responsePicResult(QPixmap *pix)
 {
     ui->headLabel->setPixmap(*pix);
     disconnect(managerPic,&NetworkManager::responsePic,this,&Widget::responsePicResult);
+
+}
+
+void Widget::on_btnWork_clicked()
+{
+    this->hide();
+    WorkRecord *work = new WorkRecord();
+    work->show();
 
 }

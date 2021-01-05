@@ -31,6 +31,8 @@ private slots:
 
     void responsePicResult(QPixmap *pix);
 
+    void on_btnWork_clicked();
+
 private:
     Ui::Widget *ui;
 };

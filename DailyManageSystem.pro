@@ -22,7 +22,8 @@ SOURCES += \
     login.cpp \
     main.cpp \
     networkmanager.cpp \
-    widget.cpp
+    widget.cpp \
+    workrecord.cpp
 
 HEADERS += \
     chttpsupport.h \
@@ -30,11 +31,13 @@ HEADERS += \
     fileutil.h \
     login.h \
     networkmanager.h \
-    widget.h
+    widget.h \
+    workrecord.h
 
 FORMS += \
     login.ui \
-    widget.ui
+    widget.ui \
+    workrecord.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
