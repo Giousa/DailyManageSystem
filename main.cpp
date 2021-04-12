@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <fileutil.h>
 #include "login.h"
+#include "novel.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,8 +32,11 @@ int main(int argc, char *argv[])
 //        w.show();
 //    }
 
-    Login l;
-    l.show();
+//    Login l;
+//    l.show();
+
+    Novel n;
+    n.show();
 
     return a.exec();
 }

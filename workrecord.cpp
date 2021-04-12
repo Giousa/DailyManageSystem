@@ -61,6 +61,7 @@ void WorkRecord::responseGetResult(QJsonObject result)
         QJsonArray array = data.value("data").toArray();
 //        qDebug() << "3" << array;
 //        ui->listWidget->clear();
+//        ui->tableWidget->clear();
         for (int i = 0; i < array.size(); ++i) {
             QJsonObject record = array[i].toObject();
             QJsonValue id = record.value("id");
@@ -159,6 +160,7 @@ void WorkRecord::on_btnNext_clicked()
 }
 
 void WorkRecord::requestRecordList(){
+
     params.insert("page",QString::number(page));
     manager->httpGet("daily-record/findQtDailyRecordListByPage",params);
 }

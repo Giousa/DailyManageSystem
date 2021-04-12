@@ -22,6 +22,7 @@ SOURCES += \
     login.cpp \
     main.cpp \
     networkmanager.cpp \
+    novel.cpp \
     widget.cpp \
     workrecord.cpp
 
@@ -31,11 +32,13 @@ HEADERS += \
     fileutil.h \
     login.h \
     networkmanager.h \
+    novel.h \
     widget.h \
     workrecord.h
 
 FORMS += \
     login.ui \
+    novel.ui \
     widget.ui \
     workrecord.ui
 
